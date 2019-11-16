@@ -27,6 +27,6 @@ def parse_samples(samples):
             'sample_name': sample.name,
             'danger': max_danger,
             'origin': sample.origin,
-            'date': sample.date,
+            'date': str(sample.date),
         })
-    return {parsed}
+    return {'samples': parsed}
