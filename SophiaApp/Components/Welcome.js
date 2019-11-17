@@ -17,7 +17,7 @@ class Welcome extends React.Component {
     }
 
     _displayFlatList(sample) {
-        if (sample != [] || sample != undefined) {
+        if (sample != [] && sample != undefined) {
             console.log("flatList displayed")
             return (
                 <View style={styles.main_container}>
@@ -45,10 +45,12 @@ class Welcome extends React.Component {
 
     }
 
-    _loadSample() {
+    _loadSample(url) {
         this.isLoading = true
-        this.setState({ sample: addSample() })
-        const action = { type: 'ADD_SAMPLE', value: getAllSample() }
+        let tmp = Promise.resolve(addSample(url)).finally(() => { })
+        console.log('tmp', tmp)
+        this.setState({ sample: addSample(url) })
+        const action = { type: 'ADD_SAMPLE', value: getSample() }
         this.props.dispatch(action)
         this.isLoading = false
     }
@@ -74,7 +76,7 @@ class Welcome extends React.Component {
                     placeholder='Votre sample'
                     onChangeText={(text) => this._searchTextInputChanged(text)}
                     onSubmitEditing={() => this._loadSample} />
-                <Button style={styles.bottom} title='Load Sample' onPress={() => { this._loadSample() }} />
+                <Button style={styles.bottom} title='Load Sample' onPress={() => { this._loadSample(this.searchedText) }} />
                 {this._displayFlatList(this.state.sample)}
                 {this._displayLoading()}
             </ SafeAreaView >
