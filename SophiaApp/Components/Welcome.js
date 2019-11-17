@@ -2,30 +2,59 @@ import React from 'react'
 import { StyleSheet, SafeAreaView, View, TextInput, FlatList, Button, Text } from 'react-native'
 import VirusItem from './VirusItem'
 import { connect } from 'react-redux'
-import sampleData from '../Helpers/fakeSampleData'
-import { getAllSample } from '../API/SampleDB'
+//import sampleData from '../Helpers/fakeSampleData'
+import { getSample, addSample, getFakeSample } from '../API/SampleDB'
 
 class Welcome extends React.Component {
 
     constructor(props) {
         super(props)
+        this.searchedText = ''
         this.state = {
-            sample_data: getAllSample(),
+            sample: [],
             isLoading: false
         }
     }
 
-    _getOrganismesFoundFromSampleList(samples) {
-        console.log('sample data', samples)
-        res = samples.map(sample => sample.organisms_found)
-        return res.flat()
+    _displayFlatList(sample) {
+        if (sample != [] || sample != undefined) {
+            console.log("flatList displayed")
+            return (
+                <View style={styles.main_container}>
+                    <FlatList
+                        style={styles.list}
+                        data={this._getOrganismesFoundFromSampleList(sample)}
+                        renderItem={({ item }) => (
+                            < VirusItem virus={item} />)}
+                        keyExtractor={(item) => item.name}
+                    />
+                </View>)
+
+        }
+        else {
+            return (
+                <Text>No sample loaded</Text>
+            )
+        }
+    }
+
+    _getOrganismesFoundFromSampleList(sample) {
+        console.log('sample data', sample)
+        res = sample.organisms_found
+        return res
+
     }
 
     _loadSample() {
-        console.log("load sample")
-        // return sampleData for testing
-        const action = { type: 'ADD_SAMPLE', value: sampleData }
+        isLoading = true
+        this.setState({ sample: getFakeSample(this.searchedText) })
+        const action = { type: 'ADD_SAMPLE', value: getFakeSample(this.searchedText) }
         this.props.dispatch(action)
+        isLoading = false
+    }
+
+    _searchTextInputChanged(text) {
+        this.searchedText = text;
     }
 
     _displayLoading() {
@@ -43,16 +72,10 @@ class Welcome extends React.Component {
             < SafeAreaView style={styles.main_container} >
                 <TextInput style={styles.textinput}
                     placeholder='Votre sample'
+                    onChangeText={(text) => this._searchTextInputChanged(text)}
                     onSubmitEditing={() => this._loadSample} />
                 <Button style={styles.bottom} title='Load Sample' onPress={() => { this._loadSample() }} />
-                <Text> {this.state.sample_data.sample_name}</Text>
-                <FlatList
-                    style={styles.list}
-                    data={this._getOrganismesFoundFromSampleList(this.state.sample_data)}
-                    renderItem={({ item }) => (
-                        < VirusItem virus={item} />)}
-                    keyExtractor={(item) => item.name}
-                />
+                {this._displayFlatList(this.state.sample)}
                 {this._displayLoading()}
             </ SafeAreaView >
         )
@@ -61,7 +84,7 @@ class Welcome extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        sample_data: state.sampleList
+        sample_data: state.sampleList.flat()
     }
 }
 

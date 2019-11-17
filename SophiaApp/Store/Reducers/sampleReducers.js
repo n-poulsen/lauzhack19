@@ -11,6 +11,7 @@ export default function toggleSample(state = initialState, action) {
                 ...state,
                 sampleList: [...state.sampleList, action.value]
             }
+            console.log('value sampleList', nextState.sampleList)
             return nextState || state
         default:
             return state

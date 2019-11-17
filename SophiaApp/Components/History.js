@@ -17,8 +17,30 @@ class History extends React.Component {
         this.props.navigation.navigate('SampleHistory', { sampleId: sampleId })
     }
 
+    _displayFlatList() {
+        if (sampleList != []) {
+            return (
+                <FlatList
+                    style={styles.list}
+                    data={this.props.sampleList}
+                    keyExtractor={(item) => item.sample_name}
+                    renderItem={({ item }) => (
+                        < SampleItem
+                            sample={item}
+                            displaySampleHistory={this._displaySampleHistory}
+                        />
+                    )}
+                >
+                </FlatList>
+            )
+        }
+        else {
+            return (<Text>No history</Text>)
+        }
+    }
+
     _displaySamples() {
-        if (this.props.sampleList != undefined) {
+        if (this.props.sampleList != []) {
             return (
                 <View>
                     <View style={styles.tab_description}>

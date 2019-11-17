@@ -3,14 +3,13 @@ import { StyleSheet, TouchableOpacity, View, Text } from 'react-native'
 
 export default class SampleItem extends React.Component {
 
-
     render() {
         console.log('sample item print')
         const { sample, displaySampleHistory } = this.props
         return (
             <TouchableOpacity
                 style={styles.main_container}
-                onPress={displaySampleHistory(sample.sample_name)}
+                onPress={() => displaySampleHistory(sample.sample_name)}
             >
                 <Text style={styles.text}> {sample.sample_name}</Text>
                 <Text style={styles.text}>{sample.danger}</Text>
