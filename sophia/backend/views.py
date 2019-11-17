@@ -3,6 +3,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
 from .models import Sample
 from .helper import parse_samples, parse_full_sample, process_sample
+import json
 
 
 def load_all_samples(request):
@@ -18,7 +19,6 @@ def load_all_samples(request):
     :param request: GET Request. The user request
     :return: JsonResponse. A JSON Response containing all samples.
     """
-    print(request)
     return JsonResponse(parse_samples(Sample.objects.order_by('date')))
 
 
@@ -35,7 +35,6 @@ def load_n_samples(request):
     :param request: GET Request. The user request
     :return: JsonResponse. A JSON Response containing all samples.
     """
-    print(request)
     try:
         # Get user tags
         n = int(request.GET.get('n'))
@@ -63,7 +62,6 @@ def load_sample(request):
     :param request: the user request
     :return: JsonResponse. A JSON Response containing all samples.
     """
-    print(request)
     try:
         # Get user tags
         sample_name = request.GET.get('sample')
@@ -107,6 +105,7 @@ def load_origin(request):
     except KeyError:
         return HttpResponse('Failure. Attribute parse failed.')
 
+
 @csrf_exempt
 def add_sample(request):
     """
@@ -115,14 +114,17 @@ def add_sample(request):
     :param request: the user request
     :return: JsonResponse. A JSON Response containing all samples.
     """
-    try:
-        # Get user tags
-        url = request.GET.get('url')
-        print(url)
-        s = process_sample(url)
-        if s is None:
-            return HttpResponse('Failure. Sample Name already taken.')
-        else:
-            return JsonResponse(parse_full_sample(s))
-    except KeyError:
-        return HttpResponse('Failure. Attribute parse failed.')
+    if request.method == 'POST':
+        try:
+            # Get user tags
+            data = json.loads(request.body)
+            url = data['url']
+            s = process_sample(url)
+            if s is None:
+                return JsonResponse({})
+            else:
+                data = parse_full_sample(s)
+                return JsonResponse({'data': data})
+        except KeyError:
+            HttpResponse('Failure. Could not parse attribute.')
+    return HttpResponse('Failure. Attribute parse failed.')
