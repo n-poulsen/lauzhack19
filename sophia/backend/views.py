@@ -1,5 +1,6 @@
 from django.http import JsonResponse, HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
+from django.views.decorators.csrf import csrf_exempt
 from .models import Sample
 from .helper import parse_samples, parse_full_sample, process_sample
 
@@ -106,7 +107,7 @@ def load_origin(request):
     except KeyError:
         return HttpResponse('Failure. Attribute parse failed.')
 
-
+@csrf_exempt
 def add_sample(request):
     """
     Adds a sample to the database, given the url to a sample file.
@@ -117,6 +118,7 @@ def add_sample(request):
     try:
         # Get user tags
         url = request.GET.get('url')
+        print(url)
         s = process_sample(url)
         if s is None:
             return HttpResponse('Failure. Sample Name already taken.')
