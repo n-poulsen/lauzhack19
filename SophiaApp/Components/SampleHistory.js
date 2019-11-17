@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import { getFakeSample } from '../API/SampleDB'
+import CharDanger from './ChartDanger'
 
 export default class SampleHistory extends React.Component {
 
@@ -15,10 +16,7 @@ export default class SampleHistory extends React.Component {
             return (
                 < View >
                     <Text> {getFakeSample(this.sampleid).sample_name}</Text>
-                    <Image
-                    >
-
-                    </Image>
+                    <CharDanger />
                 </View >
             )
         }
