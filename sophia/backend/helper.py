@@ -1,11 +1,15 @@
 from .models import Sample, Organism, DetectedOrganism
 import random
 import datetime
+import json
 
 RANDOM_VIRUSES = ['TastyVirus', 'CoolVirus', 'DeathVirus', 'DarthVirus']
 DANGER_VIRUS = [0, 0, 1, 100]
 RANDOM_BACTERIAS = ['Nice Bacteria', 'SuperDeath', 'MegaDeath', 'GigaDeath']
 DANGER_BACTERIA = [0, 1, 5, 10]
+
+SAMPLE_OUTPUT = "../data/samples_output/"
+SAMPLES = ['sample_1', 'sample_2', 'sample_3', 'sample_4', 'sample_5', 'sample_6']
 
 
 def parse_samples(samples):
@@ -131,9 +135,38 @@ def generate_sample(name):
     return s
 
 
+def parse_json(file_url, sample_name):
+    with open(file_url, 'r') as f:
+        json_string = f.read()
+    parsed_json = json.loads(json_string)
+    origin = parsed_json['origin']
+    date = parsed_json['date'].split('/')
+    s = add_sample(sample_name, origin, datetime.datetime(int(date[2]), int(date[1]), int(date[0])))
+    organisms = parsed_json['organisms_found']
+    for orga in organisms:
+        orga_name = orga['name']
+        danger = orga['danger']
+        confidence = round(orga['confidence'])
+        org_type = orga['type']
+        if Organism.objects.filter(name=orga_name).count() == 0:
+            org = add_organism(orga_name, org_type, danger)
+        else:
+            org = Organism.objects.get(name=orga_name)
+        add_detected(orga_name, s, org, confidence)
+    return s
+
+
 def process_sample(url):
     sample_name = url.split('.')[0]
+    if sample_name in SAMPLES:
+        return parse_json(SAMPLE_OUTPUT + sample_name + '.json', sample_name)
     if Sample.objects.filter(name=sample_name).count() == 1:
         return None
     else:
         return generate_sample(sample_name)
+
+
+def delete_all_db():
+    Sample.objects.delete()
+    Organism.objects.delete()
+    DetectedOrganism.objects.delete()
