@@ -20,6 +20,7 @@ export function getAllSample() {
         .catch((error) => console.error(error))
 }
 
+/*
 export function getSample(sample) {
     return fetch('http://127.0.0.1:8000/api/loadSample/', {
         method: 'GET',
@@ -34,7 +35,8 @@ export function getSample(sample) {
         .then((response) => { return response })
         .catch((error) => console.error(error))
 }
-/*
+*/
+
 export function addSample(sample) {
     fetch(url + 'api/addSample/', {
         method: 'POST',
@@ -45,11 +47,15 @@ export function addSample(sample) {
         body: JSON.stringify({
             'url': sample,
         }),
+    })
+    .then((response) => {
+        const data = response.json()
+        console.log(data);
+        return data;
     });
 }
-foo=${encodeURIComponent(data.foo)}
-*/
 
-export function addSample(sample) {
-    fetch('http://127.0.0.1:8000/api/addSample/?url=' + sample)
+export function getSample(sample) {
+    fetch('http://127.0.0.1:8000/api/loadSample/?sample=' + sample)
+    .then((response) => console.log(response.json()));
 }

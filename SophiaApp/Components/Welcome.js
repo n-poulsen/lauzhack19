@@ -46,13 +46,35 @@ class Welcome extends React.Component {
     }
 
     _loadSample(url) {
+        fetch('http://127.0.0.1:8000/api/addSample/', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                'url': url,
+            }),
+        })
+        .then((response) => {
+            const data = response.json()
+            console.log(data);
+            return data;
+        }).then((data) => {
+            this.setState({ sample: data.data }, () => {
+                console.log('Sample: ', this.sample);
+                this.isLoading = false;
+            })
+        });
+        /*
         this.isLoading = true
-        let tmp = Promise.resolve(addSample(url)).finally(() => { })
-        console.log('tmp', tmp)
-        this.setState({ sample: addSample(url) })
-        const action = { type: 'ADD_SAMPLE', value: getSample() }
-        this.props.dispatch(action)
+        let tmp = addSample(url)
+        console.log('tmp: ', tmp)
+        this.setState({ sample: tmp }, () => {
+            console.log('Sample: ', this.sample)
+        })
         this.isLoading = false
+        */
     }
 
     _searchTextInputChanged(text) {
