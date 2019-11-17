@@ -17,6 +17,7 @@ def load_all_samples(request):
     :param request: GET Request. The user request
     :return: JsonResponse. A JSON Response containing all samples.
     """
+    print(request)
     return JsonResponse(parse_samples(Sample.objects.order_by('date')))
 
 
@@ -33,6 +34,7 @@ def load_n_samples(request):
     :param request: GET Request. The user request
     :return: JsonResponse. A JSON Response containing all samples.
     """
+    print(request)
     try:
         # Get user tags
         n = int(request.GET.get('n'))
@@ -60,6 +62,7 @@ def load_sample(request):
     :param request: the user request
     :return: JsonResponse. A JSON Response containing all samples.
     """
+    print(request)
     try:
         # Get user tags
         sample_name = request.GET.get('sample')
