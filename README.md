@@ -1,19 +1,13 @@
-# lauzhack19
+# Lauzhack19: Hooli Team
 
-## Importing the conda environment
+## Packages Required
 
-If the environment isn't created yet, run:
+* django
+* npm
 
-`conda env create -f environment.yml -n lauzhack`
+## Installation
 
-To activate the created environment, run:
-
-`conda activate lauzhack`
-
-To update the already created environment, run with the environment activated:
-
-`conda env update --file environment.yml`
-
-To create a new env file if you added packages, run:
-
-`conda env export --name lauzhack > environment.yml`
+* Migrate the databases
+* Run npm install
+* Run manage.py runserver
+* Run npm start
