@@ -2,9 +2,7 @@ import React from 'react'
 import { StyleSheet, SafeAreaView, View, TextInput, FlatList, Button, Text } from 'react-native'
 import VirusItem from './VirusItem'
 import { connect } from 'react-redux'
-//import sampleData from '../Helpers/fakeSampleData'
 import { getSample, getAllSample, addSample, getFakeSample } from '../API/SampleDB'
-import { ProportionsChar } from '../Charts/ChartDanger'
 
 class Welcome extends React.Component {
 
@@ -29,7 +27,6 @@ class Welcome extends React.Component {
                             < VirusItem virus={item} />)}
                         keyExtractor={(item) => item.name}
                     />
-                    {ProportionsChar}
                 </View>)
 
         }

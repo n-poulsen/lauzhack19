@@ -118,7 +118,6 @@ def add_sample(request):
     try:
         # Get user tags
         url = request.GET.get('url')
-        print(url)
         s = process_sample(url)
         if s is None:
             return HttpResponse('Failure. Sample Name already taken.')
