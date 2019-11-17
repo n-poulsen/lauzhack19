@@ -4,6 +4,7 @@ import VirusItem from './VirusItem'
 import { connect } from 'react-redux'
 //import sampleData from '../Helpers/fakeSampleData'
 import { getSample, getAllSample, addSample, getFakeSample } from '../API/SampleDB'
+import { ProportionsChar } from '../Charts/ChartDanger'
 
 class Welcome extends React.Component {
 
@@ -28,6 +29,7 @@ class Welcome extends React.Component {
                             < VirusItem virus={item} />)}
                         keyExtractor={(item) => item.name}
                     />
+                    {ProportionsChar}
                 </View>)
 
         }
@@ -48,7 +50,7 @@ class Welcome extends React.Component {
     _loadSample() {
         this.isLoading = true
         this.setState({ sample: addSample() })
-        const action = { type: 'ADD_SAMPLE', value: getAllSample() }
+        const action = { type: 'ADD_SAMPLE', value: getFakeSample() }
         this.props.dispatch(action)
         this.isLoading = false
     }
