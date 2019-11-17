@@ -15,7 +15,7 @@ export function getFakeSample(sample) {
 const url = 'http://127.0.0.1:8000/';
 
 export function getAllSample() {
-    return fetch('http://127.0.0.1:8000/api/loadAllData/')
+    return fetch('http://127.0.0.1:8000/api/loadAllSamples/')
         .then((response) => response.json())
         .catch((error) => console.error(error))
 }
@@ -27,14 +27,14 @@ export function getSample(sample) {
 }
 
 export function addSample(sample) {
-    fetch(url + '/api/addSample/', {
+    fetch(url + 'api/addSample/', {
         method: 'POST',
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            url: sample,
+            'url': sample,
         }),
     });
 }

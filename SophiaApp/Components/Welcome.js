@@ -3,7 +3,7 @@ import { StyleSheet, SafeAreaView, View, TextInput, FlatList, Button, Text } fro
 import VirusItem from './VirusItem'
 import { connect } from 'react-redux'
 //import sampleData from '../Helpers/fakeSampleData'
-import { getSample, addSample, getFakeSample } from '../API/SampleDB'
+import { getSample, getAllSample, addSample, getFakeSample } from '../API/SampleDB'
 
 class Welcome extends React.Component {
 
@@ -40,17 +40,17 @@ class Welcome extends React.Component {
 
     _getOrganismesFoundFromSampleList(sample) {
         console.log('sample data', sample)
-        res = sample.organisms_found
+        const res = sample.organisms_found
         return res
 
     }
 
     _loadSample() {
-        isLoading = true
-        this.setState({ sample: getFakeSample(this.searchedText) })
-        const action = { type: 'ADD_SAMPLE', value: getFakeSample(this.searchedText) }
+        this.isLoading = true
+        this.setState({ sample: addSample() })
+        const action = { type: 'ADD_SAMPLE', value: getAllSample() }
         this.props.dispatch(action)
-        isLoading = false
+        this.isLoading = false
     }
 
     _searchTextInputChanged(text) {

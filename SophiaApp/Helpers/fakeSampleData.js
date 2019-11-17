@@ -1,4 +1,5 @@
-export default samples = [
+
+const samples = [
     {
         sample_name: "room1",
         danger: 0,
@@ -34,3 +35,5 @@ export default samples = [
         ]
     }
 ]
+
+export default samples

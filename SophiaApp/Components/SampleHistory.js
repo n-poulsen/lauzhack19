@@ -32,6 +32,6 @@ export default class SampleHistory extends React.Component {
     }
 }
 
-styles = StyleSheet.create({
+const styles = StyleSheet.create({
 
 })
