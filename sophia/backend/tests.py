@@ -233,6 +233,6 @@ class SampleTestCase(TestCase):
 
     def test_add_sample_1(self):
         c = Client()
-        response = c.get('/api/addSample/', data={'url': 'sample3.file'})
+        response = c.post('/api/addSample/', {'url': 'sample3.file'}, content_type='application/json')
         s = json.loads(response.content)
         self.assertEquals(s['sample_name'], 'sample3')
