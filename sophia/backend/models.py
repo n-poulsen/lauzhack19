@@ -6,7 +6,7 @@ class Sample(models.Model):
     """
     Represents a table of samples
     """
-    name = CharField(max_length=30)
+    name = CharField(max_length=30, unique=True)
     origin = CharField(max_length=30)
     date = DateTimeField()
 
@@ -18,7 +18,7 @@ class Organism(models.Model):
     """
     Represents a table of organisms
     """
-    name = CharField(max_length=50)
+    name = CharField(max_length=50, unique=True)
     type = CharField(max_length=30)
     danger = IntegerField()
 

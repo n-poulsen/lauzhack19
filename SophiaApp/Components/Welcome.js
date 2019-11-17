@@ -46,6 +46,7 @@ class Welcome extends React.Component {
     }
 
     _loadSample(url) {
+        this.isLoading = true;
         fetch('http://127.0.0.1:8000/api/addSample/', {
             method: 'POST',
             headers: {
@@ -62,19 +63,10 @@ class Welcome extends React.Component {
             return data;
         }).then((data) => {
             this.setState({ sample: data.data }, () => {
-                console.log('Sample: ', this.sample);
+                console.log('Sample: ', this.state.sample);
                 this.isLoading = false;
             })
         });
-        /*
-        this.isLoading = true
-        let tmp = addSample(url)
-        console.log('tmp: ', tmp)
-        this.setState({ sample: tmp }, () => {
-            console.log('Sample: ', this.sample)
-        })
-        this.isLoading = false
-        */
     }
 
     _searchTextInputChanged(text) {

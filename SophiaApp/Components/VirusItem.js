@@ -11,7 +11,7 @@ export default class VirusItem extends React.Component {
     _displayDangerImage() {
 
         const danger = this.props.virus.danger
-        color = 'green'
+        var color = 'green'
         if (danger == 1) {
             color = 'orange'
         }

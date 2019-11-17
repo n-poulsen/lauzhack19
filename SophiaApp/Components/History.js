@@ -9,7 +9,19 @@ class History extends React.Component {
         super(props)
         this._displaySamples = this._displaySamples.bind(this)
 
+        this.state = {
+            all_samples: [],
+            isLoading: true
+        }
 
+        this.state.all_samples = fetch('http://127.0.0.1:8000/api/loadAllSamples/')
+            .then((response) => response.json())
+            .then((data) => {
+                this.setState({ all_samples: data.samples }, () => {
+                    console.log('All Samples: ', this.state.all_samples);
+                    this.state.isLoading = false
+                })
+            }).catch((error) => console.error(error));
     }
 
     _displaySampleHistory = (sampleId) => {
@@ -18,11 +30,11 @@ class History extends React.Component {
     }
 
     _displayFlatList() {
-        if (sampleList != []) {
+        if (this.state.all_samples != []) {
             return (
                 <FlatList
                     style={styles.list}
-                    data={this.props.sampleList}
+                    data={this.state.all_samples}
                     keyExtractor={(item) => item.sample_name}
                     renderItem={({ item }) => (
                         < SampleItem
@@ -40,7 +52,7 @@ class History extends React.Component {
     }
 
     _displaySamples() {
-        if (this.props.sampleList != []) {
+        if (this.state.all_samples != []) {
             return (
                 <View>
                     <View style={styles.tab_description}>
@@ -50,7 +62,7 @@ class History extends React.Component {
                     </View>
                     <FlatList
                         style={styles.list}
-                        data={this.props.sampleList}
+                        data={this.state.all_samples}
                         keyExtractor={(item) => item.sample_name}
                         renderItem={({ item }) => (
                             < SampleItem
