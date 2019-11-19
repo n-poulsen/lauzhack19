@@ -13,7 +13,7 @@ export default class VirusItem extends React.Component {
         const danger = this.props.virus.danger
         const confidence = this.props.virus.confidence
         var color = 'green'
-        let wid = (Dimensions.get('window').width - 200) * (confidence / 100) + 10
+        let wid = (Dimensions.get('window').width - 400) * (confidence / 100)
         if (danger == 1) {
             color = 'orange'
         }
@@ -22,7 +22,7 @@ export default class VirusItem extends React.Component {
         }
         return (
             <Image
-                style={[styles.image, { backgroundColor: color , width: wid}]}
+                style={[styles.image, { backgroundColor: color, width: wid }]}
                 source={this.requiredImage}
             />
         )
@@ -44,8 +44,8 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingLeft:20,
-        paddingRight:20,
+        paddingLeft: 20,
+        paddingRight: 20,
         borderBottomWidth: 2,
         paddingTop: 10
     },

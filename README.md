@@ -8,7 +8,7 @@ If the environment isn't created yet, run:
 
 To activate the created environment, run:
 
-`conda activate lauzhack`
+`conda activate lauzhack2`
 
 To update the already created environment, run with the environment activated:
 
