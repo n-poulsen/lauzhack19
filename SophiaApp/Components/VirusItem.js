@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, Text, Image } from 'react-native'
+import { StyleSheet, View, Text, Image, Dimensions } from 'react-native'
 
 export default class VirusItem extends React.Component {
 
@@ -11,7 +11,9 @@ export default class VirusItem extends React.Component {
     _displayDangerImage() {
 
         const danger = this.props.virus.danger
-        color = 'green'
+        const confidence = this.props.virus.confidence
+        var color = 'green'
+        let wid = (Dimensions.get('window').width - 200) * (confidence / 100) + 10
         if (danger == 1) {
             color = 'orange'
         }
@@ -20,7 +22,7 @@ export default class VirusItem extends React.Component {
         }
         return (
             <Image
-                style={[styles.image, { backgroundColor: color }]}
+                style={[styles.image, { backgroundColor: color , width: wid}]}
                 source={this.requiredImage}
             />
         )
@@ -41,12 +43,13 @@ const styles = StyleSheet.create({
     main_container: {
         flex: 1,
         flexDirection: 'row',
-        justifyContent: 'space-around',
+        justifyContent: 'space-between',
+        paddingLeft:20,
+        paddingRight:20,
         borderBottomWidth: 2,
         paddingTop: 10
     },
     image: {
-        width: 40,
         height: 30,
         marginBottom: 10,
     }
